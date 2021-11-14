@@ -1,73 +1,51 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+### Pre-requisites
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+1. Docker
+2. Semi-colon seperated CSV File
+3. MySQL WorkBench to accesss the Database
+4. Postman to send requests and test the API
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### Running
 
-## Description
+1. Clone the project - `git@github.com:iamyxsh/csv-reader.git`
+2. Navigate to the project dir - `cd csv-reader`
+3. Run docker compose up (if on an M1 device, first do `docker pull --platform linux/x86_64 mysql`)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+The project is now running on your localhost at port 3000.
 
-## Installation
+### Interaction with the API
 
-```bash
-$ npm install
+1. Load the following code in your postman
+
+```
+   curl -X POST \
+    http://localhost:3000/csv \
+    -H 'cache-control: no-cache' \
+    -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+    -H 'postman-token: 17aa5432-6e71-a2ea-c0e4-a85f9ac244e6' \
+    -F csv-file=@code_challenge.csv
 ```
 
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```
+  Basically a post request to localhost:3000/csv with body as form-data.
 ```
 
-## Test
+2. Add the csv file (seperated with semi-colon) in form-data body with the key "csv-file".
+3. Hopefully the response will be OK ;).
+4. Open MySQL Workbench with following options:
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```
+  (i). User - root
+  (ii). Password - password
+  (iii). Port - 3306
+  (iv). Host: 127.0.0.1
 ```
 
-## Support
+5. Navigate to the revenue db and check the table starting with CSV*data*.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### What I could have dne better with more time
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+1. I could have written some unit tests with jest.
+2. I could have implemented some "Get" routes to fetch the data.
+3. I could have made it more dynamic by taking inputs from the user such as csv file seperator (semi-colon or a comma), name of the table you want to save the data in, etc.
+4. I could have written some of the SQL queries on my own rather that taking the help of a library.
