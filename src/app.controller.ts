@@ -19,6 +19,6 @@ export class AppController {
     }),
   )
   readFile(@UploadedFile() file: Express.Multer.File) {
-    this.appService.readFile(file);
+    return this.appService.readFile(file);
   }
 }

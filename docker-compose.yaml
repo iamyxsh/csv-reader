@@ -4,12 +4,12 @@ services:
   db:
     image: mysql
     restart: always
+    container_name: 'db'
     environment:
-      MYSQL_DATABASE: 'db'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'password'
-      MYSQL_DATABASE: "revenue"
+      MYSQL_DATABASE: 'revenue'
     ports:
       - '3306:3306'
     expose:

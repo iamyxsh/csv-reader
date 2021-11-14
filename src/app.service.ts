@@ -29,7 +29,12 @@ export class AppService {
 
     const columns = this.returnColumns(headers);
     await this.createTable(columns);
-    data.forEach(async (d: any) => await this.insertData(headers, d));
+    data.forEach(
+      async (d: any) =>
+        await this.insertData(headers, d).catch((err) => {
+          throw new Error(err);
+        }),
+    );
 
     return 'CSV File read and added to db. :)';
   }
